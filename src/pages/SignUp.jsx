@@ -95,7 +95,7 @@ const SignUp = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                placeholder="your@email.com"
+                placeholder="Your@email.com"
                 required
                 className="block w-full px-4 rounded-2xl border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 onChange={(e) => setEmail(e.target.value)}
@@ -158,7 +158,7 @@ const SignUp = () => {
         <p>{responseMessage}</p>
         <p className="text-center">
           Have an account?{" "}
-          <a href="#" className="text-blue-600 ">
+          <a href="#" className="text-blue-600 underline ">
             Sign in
           </a>
         </p>
