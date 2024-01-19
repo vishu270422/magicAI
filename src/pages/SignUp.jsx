@@ -13,7 +13,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      // Validate passwords match
+     
       if (password !== confirmPassword) {
         throw new Error("Passwords do not match");
       }
@@ -51,7 +51,7 @@ const SignUp = () => {
               htmlFor="firstName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Name
+             First Name
             </label>
             <div className="mt-2">
               <input
