@@ -60,7 +60,7 @@ const SignUp = () => {
 
         <div className="sm:mx-auto sm:w-full sm:max-w-sm relative top-4 left-20">
           <h2 className="mt-10 ml-16 text-3xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign up
+            Sign Up
           </h2>
         </div>
         <br></br>
