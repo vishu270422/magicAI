@@ -1,5 +1,6 @@
+
 import { supabase } from "./client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import logo from "./images/logo.png";
@@ -32,7 +33,7 @@ const SignUp = () => {
         throw new Error("Passwords do not match");
       }
 
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         data: {
@@ -49,7 +50,7 @@ const SignUp = () => {
       alert(error);
     }
 
-    const { data, error: insertError } = await supabase.from("users").upsert(
+    const { error: insertError } = await supabase.from("users").upsert(
       [
         {
           firstname: formData.fname,
