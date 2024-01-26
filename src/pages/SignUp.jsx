@@ -88,6 +88,7 @@ const SignUp = () => {
                 <TextInput
                   id="fname"
                   type="text"
+                  placeholder="Enter Your First Name"
                   required
                   shadow
                   value={formData.fname}
@@ -101,6 +102,7 @@ const SignUp = () => {
                 <TextInput
                   id="lname"
                   type="text"
+                  placeholder="Enter Your Last Name"
                   required
                   shadow
                   value={formData.lname}
@@ -109,11 +111,12 @@ const SignUp = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email2" value="Email address" />
+                  <Label htmlFor="email2" value="Email Address" />
                 </div>
                 <TextInput
                   id="email"
                   type="email"
+                  placeholder="Enter Your Email Address"
                   required
                   shadow
                   value={formData.email}
@@ -128,6 +131,7 @@ const SignUp = () => {
                   <TextInput
                     id="password"
                     type="password"
+                    placeholder="Enter Your Password"
                     required
                     shadow
                     value={formData.password}
@@ -143,6 +147,7 @@ const SignUp = () => {
                   <TextInput
                     id="cpassword"
                     type="password"
+                    placeholder="Enter Your Confirm Your Password"
                     required
                     shadow
                     value={formData.cpassword}
