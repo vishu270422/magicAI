@@ -1,233 +1,199 @@
-import React, { useState } from "react";
+
 import { supabase } from "./client";
+import React, { useState } from "react";
+import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { HiOutlineChevronLeft } from "react-icons/hi";
+import logo from "./images/logo.png";
+import authBg from "./images/bg-auth.jpg";
+import dashMockup from "./images/dash-mockup.jpg";
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [responseMessage, setResponseMessage] = useState("");
+  const [formData, setFormData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    cpassword: "",
+    agree: false,
+  });
 
-  const handleSignup = async (e) => {
+  const handleChange = (e) => {
+    const { id, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const { error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
+      // Validate passwords match
+      if (formData.password !== formData.cpassword) {
+        throw new Error("Passwords do not match");
+      }
+
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        data: {
+          first_name: formData.fname,
+          last_name: formData.lname,
+        },
       });
 
       if (error) {
         throw error;
       }
-
-      const { data, error: insertError } = await supabase
-        .from('users')
-        .upsert([
-          {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            password: password,
-          },
-        ], { onConflict: ['email'] }); 
-
-      if (insertError) {
-        throw insertError;
-      }
-
-      setResponseMessage("Check your email for a verification link");
+      alert("Check your email for a verification link");
     } catch (error) {
-      setResponseMessage(error.message);
+      alert(error);
+    }
+
+    const { data, error: insertError } = await supabase.from("users").upsert(
+      [
+        {
+          firstname: formData.fname,
+          lastname: formData.lname,
+          email: formData.email,
+          password: formData.password,
+        },
+      ],
+      { onConflict: ["email"] }
+    );
+
+    if (insertError) {
+      throw insertError;
     }
   };
 
   return (
-    <div className="flex min-h-full">
-      {/* Left Column */}
-      <div className="flex-1 px-6 py-12 lg:px-8">
-        <div className="flex items-center justify-between">
-          <img
-            className="ml-6 h-10 w-auto"
-            src="https://magicai.liquid-themes.com/assets/img/logo/magicAI-logo.svg"
-            alt="Your Company"
-          />
-          <p className="mr-6 text-right absolute right-0 text-white">
-            <a href="#"> &lt; Back to home</a>
-          </p>
+    <>
+      <div className="grid sm:grid-cols-2 ">
+        <div className="col-span-full fixed overflow-x-hidden w-screen z-10 sm:text-white flex items-center justify-between py-3-fixed sm:px-24 px-2">
+          <div>
+            <img src={logo.src} alt="" className="object-cover h-20" />
+          </div>
+          <div className="flex items-center">
+            <HiOutlineChevronLeft className="me-2 cursor-pointer" /> Back to Home
+          </div>
         </div>
-
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm relative top-4 left-20">
-          <h2 className="mt-10 ml-16 text-3xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign Up
-          </h2>
-        </div>
-        <br></br>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSignup} className="space-y-6" method="POST">
-            <div>
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                First Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="firstName"
-                  name="firstName"
+        <div className="h-screen grid  justify-center">
+          <div className="mt-32">
+            <h1 className="text-3xl font-bold mb-6">Sign up</h1>
+            <form className="flex flex-col gap-4 md:w-96" onSubmit={handleSubmit}>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="fname" value="First Name" />
+                </div>
+                <TextInput
+                  id="fname"
                   type="text"
-                  autoComplete="given-name"
-                  placeholder="Your first name"
                   required
-                  className="block w-full px-4 rounded-2xl border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setFirstName(e.target.value)}
+                  shadow
+                  value={formData.fname}
+                  onChange={handleChange}
                 />
               </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Last Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="lastName"
-                  name="lastName"
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="lname" value="Last Name" />
+                </div>
+                <TextInput
+                  id="lname"
                   type="text"
-                  autoComplete="family-name"
-                  placeholder="Your last name"
                   required
-                  className="block w-full px-4 rounded-2xl border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setLastName(e.target.value)}
+                  shadow
+                  value={formData.lname}
+                  onChange={handleChange}
                 />
               </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="email2" value="Email address" />
+                </div>
+                <TextInput
                   id="email"
-                  name="email"
                   type="email"
-                  autoComplete="email"
-                  placeholder="Your email address"
                   required
-                  className="block w-full px-4 rounded-2xl border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e) => setEmail(e.target.value)}
+                  shadow
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="  Your password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="password" value="Password" />
+                </div>
+                <div className="">
+                  <TextInput
+                    id="password"
+                    type="password"
+                    required
+                    shadow
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Confirm Password
-              </label>
-              <div className="mt-2">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="   Confirm your password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="cpassword" value="Confirm Your Password" />
+                </div>
+                <div className="">
+                  <TextInput
+                    id="cpassword"
+                    type="password"
+                    required
+                    shadow
+                    value={formData.cpassword}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-3xl bg-indigo-900 px-3 py-1.5  font-bold leading-9 text-white  shadow-sm hover:bg-purple-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign up
-              </button>
-            </div>
-
-            <div className="text-center mt-4 text-sm text-gray-500">
-              Have an account?{" "}
-              <a
-                href="/login"
-                className="font-semibold text-indigo-600 hover:text-indigo-500 ml-2 underline"
-              >
-                Sign in
-              </a>
-            </div>
-          </form>
-
-          <p>{responseMessage}</p>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center">
+                  <Checkbox id="agree" checked={formData.agree} onChange={handleChange} />
+                  <Label htmlFor="agree" className="flex ms-2">
+                    Remember me
+                  </Label>
+                </div>
+                <div>
+                  <Label className="flex">Forget Password</Label>
+                </div>
+              </div>
+              <div className="mt-5">
+                <Button
+                  type="submit"
+                  className="rounded-full w-full bg-indigo-700 hover:-translate-y-1 transition-all duration-300 h-14"
+                >
+                  <span className="text-xl">Sign up</span>
+                </Button>
+              </div>
+              <div className="text-center mt-5">
+                <h2>
+                  Have an account?{" "}
+                  <a
+                    href="/login"
+                    className="text-indigo-700 font-medium underline decoration-solid"
+                  >
+                    Sign in
+                  </a>
+                </h2>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="relative  overflow-hidden">
+          <img src={authBg.src} alt="" className=" w-screen object-cover" />
+          <img
+            src={dashMockup.src}
+            alt=""
+            className="h-96 rounded-3xl full-fixed absolute top-20 right-10 translate-y-52 translate-x-40"
+          />
         </div>
       </div>
-
-      {/* Right Column */}
-      <div className="flex-1 relative">
-  <div className="flex justify-end items-center h-full">
-    {/* Image container */}
-    <img
-      className="w-full h-full object-cover"
-      src="https://magicai.liquid-themes.com/images/bg/bg-auth.jpg"
-      alt="Background Auth"
-      style={{ position: "absolute", zIndex: "-1" }}
-    />
-    <div
-      style={{
-        overflow: "hidden",
-        width: "100%",
-      }}
-    >
-      <img
-        className="w-full h-auto"
-        src="https://magicai.liquid-themes.com/images/bg/dash-mockup.jpg"
-        alt="Dashboard Mockup"
-        style={{
-          marginRight: "-25%",
-          marginLeft: "auto",
-          width: "150%",
-          height: "150%",
-        }}
-      />
-    </div>
-  </div>
-</div>
-
-    </div>
+    </> 
   );
 };
 
