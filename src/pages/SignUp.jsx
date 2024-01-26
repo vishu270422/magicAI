@@ -1,4 +1,3 @@
-
 import { supabase } from "./client";
 import { useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
