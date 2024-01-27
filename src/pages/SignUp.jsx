@@ -141,13 +141,13 @@ const SignUp = () => {
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="cpassword" value="Confirm Your Password" />
+                  <Label htmlFor="cpassword" value="Confirm Password" />
                 </div>
                 <div className="">
                   <TextInput
                     id="cpassword"
                     type="password"
-                    placeholder="Enter Your Confirm Your Password"
+                    placeholder="Enter Your Confirm Password"
                     required
                     shadow
                     value={formData.cpassword}
