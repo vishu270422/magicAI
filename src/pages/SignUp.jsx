@@ -80,7 +80,7 @@ const SignUp = () => {
   return (
     <>
       <div className="grid sm:grid-cols-2 ">
-        <div className="col-span-full fixed overflow-x-hidden w-screen z-10 sm:text-white flex items-center justify-between py-3-fixed sm:px-24 px-2">
+        <div className="col-span-full fixed absolute overflow-x-hidden w-screen z-10 sm:text-white flex items-center justify-between py-3-fixed sm:px-24 px-2">
           <div>
             <img src={logo.src} alt="" className="object-cover h-20" />
           </div>
