@@ -1,5 +1,5 @@
 import { supabase } from "./client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import logo from "./images/logo.png";
@@ -26,13 +26,23 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       // Validate passwords match
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(formData.password)) {
+        throw new Error(
+          "Requires at least one lowercase letter,uppercase letter, special character, and number."
+        );
+      }
       if (formData.password !== formData.cpassword) {
         throw new Error("Passwords do not match");
       }
-
-      const { error } = await supabase.auth.signUp({
+      const nameRegex = /^[A-Za-z]+$/;
+      if (!nameRegex.test(formData.fname) || !nameRegex.test(formData.lname)) {
+        throw new Error("Only alphabets are allowed for First Name and Last Name.");
+      }
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         data: {
@@ -49,7 +59,7 @@ const SignUp = () => {
       alert(error);
     }
 
-    const { error: insertError } = await supabase.from("users").upsert(
+    const { data, error: insertError } = await supabase.from("users").upsert(
       [
         {
           firstname: formData.fname,
@@ -65,6 +75,7 @@ const SignUp = () => {
       throw insertError;
     }
   };
+
 
   return (
     <>
