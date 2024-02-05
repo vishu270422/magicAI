@@ -1,3 +1,4 @@
+
 import { supabase } from "./client";
 import React, { useState } from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
@@ -32,10 +33,7 @@ const SignUp = () => {
       const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       if (!passwordRegex.test(formData.password)) {
         throw new Error(
-          "Requires at least One Lower case Letter,
-          Uppercase Letter,
-          Special Character, 
-          and Number."
+          "Password Requires at least one lowercase letter,uppercase letter, special character, and number."
         );
       }
       if (formData.password !== formData.cpassword) {
@@ -79,19 +77,22 @@ const SignUp = () => {
     }
   };
 
-
   return (
     <>
       <div className="grid sm:grid-cols-2 ">
-        <div className="col-span-full fixed absolute overflow-x-hidden w-screen z-10 sm:text-white flex items-center justify-between py-3-fixed sm:px-24 px-2">
+        <div className="col-span-full absolute overflow-x-hidden w-screen z-10 sm:text-white flex items-center justify-between py-2 sm:px-24 px-2">
           <div>
-            <img src={logo.src} alt="" className="object-cover h-20" />
+            <a href="#">
+              <img src={logo.src} alt="" className="object-cover h-20" />
+            </a>
           </div>
-          <div className="flex items-center">
-            <HiOutlineChevronLeft className="me-2 cursor-pointer" /> Back to Home
+          <div className="">
+            <a href="#" className="flex items-center">
+              <HiOutlineChevronLeft className="me-2 cursor-pointer" /> Back to Home
+            </a>
           </div>
         </div>
-        <div className="h-screen grid  justify-center">
+        <div className="h-screen grid justify-center">
           <div className="mt-32">
             <h1 className="text-3xl font-bold mb-6">Sign up</h1>
             <form className="flex flex-col gap-4 md:w-96" onSubmit={handleSubmit}>
@@ -102,11 +103,11 @@ const SignUp = () => {
                 <TextInput
                   id="fname"
                   type="text"
-                  placeholder="Enter Your First Name"
                   required
                   shadow
                   value={formData.fname}
                   onChange={handleChange}
+                  placeholder=" Enter First Name"
                 />
               </div>
               <div>
@@ -116,25 +117,25 @@ const SignUp = () => {
                 <TextInput
                   id="lname"
                   type="text"
-                  placeholder="Enter Your Last Name"
                   required
                   shadow
                   value={formData.lname}
                   onChange={handleChange}
+                   placeholder=" Enter Last Name"
                 />
               </div>
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="email2" value="Email Address" />
+                  <Label htmlFor="email2" value="Email address" />
                 </div>
                 <TextInput
                   id="email"
                   type="email"
-                  placeholder="Enter Your Email Address"
                   required
                   shadow
                   value={formData.email}
                   onChange={handleChange}
+                   placeholder=" Enter Email Id"
                 />
               </div>
               <div>
@@ -145,11 +146,11 @@ const SignUp = () => {
                   <TextInput
                     id="password"
                     type="password"
-                    placeholder="Enter Your Password"
                     required
                     shadow
                     value={formData.password}
                     onChange={handleChange}
+                     placeholder=" Enter Password"
                   />
                 </div>
               </div>
@@ -161,11 +162,11 @@ const SignUp = () => {
                   <TextInput
                     id="cpassword"
                     type="password"
-                    placeholder="Enter Your Confirm Password"
                     required
                     shadow
                     value={formData.cpassword}
                     onChange={handleChange}
+                     placeholder=" Enter Conform Password"
                   />
                 </div>
               </div>
@@ -177,7 +178,9 @@ const SignUp = () => {
                   </Label>
                 </div>
                 <div>
-                  <Label className="flex">Forget Password</Label>
+                  <Label className="flex">
+                    <a href="#">Forget Password</a>
+                  </Label>
                 </div>
               </div>
               <div className="mt-5">
@@ -207,11 +210,11 @@ const SignUp = () => {
           <img
             src={dashMockup.src}
             alt=""
-            className="h-96 rounded-3xl full-fixed absolute top-20 right-10 translate-y-52 translate-x-40"
+            className="h-96 rounded-3xl absolute top-20 right-10 translate-y-52 translate-x-40"
           />
         </div>
       </div>
-    </> 
+    </>
   );
 };
 
