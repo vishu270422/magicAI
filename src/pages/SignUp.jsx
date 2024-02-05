@@ -107,7 +107,7 @@ const SignUp = () => {
                   shadow
                   value={formData.fname}
                   onChange={handleChange}
-                  placeholder=" Enter First Name"
+                  placeholder=" Enter Your First Name"
                 />
               </div>
               <div>
@@ -121,7 +121,7 @@ const SignUp = () => {
                   shadow
                   value={formData.lname}
                   onChange={handleChange}
-                   placeholder=" Enter Last Name"
+                   placeholder=" Enter Your Last Name"
                 />
               </div>
               <div>
@@ -135,7 +135,7 @@ const SignUp = () => {
                   shadow
                   value={formData.email}
                   onChange={handleChange}
-                   placeholder=" Enter Email Id"
+                   placeholder=" Enter Your Email Id"
                 />
               </div>
               <div>
@@ -150,7 +150,7 @@ const SignUp = () => {
                     shadow
                     value={formData.password}
                     onChange={handleChange}
-                     placeholder=" Enter Password"
+                     placeholder=" Enter Your Password"
                   />
                 </div>
               </div>
@@ -166,7 +166,7 @@ const SignUp = () => {
                     shadow
                     value={formData.cpassword}
                     onChange={handleChange}
-                     placeholder=" Enter Conform Password"
+                     placeholder=" Enter Confirm Your Password"
                   />
                 </div>
               </div>
